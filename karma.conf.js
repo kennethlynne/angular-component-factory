@@ -13,7 +13,7 @@ module.exports = function(config) {
     files: [
         'bower_components/angular/angular.js',
         'bower_components/angular-mocks/angular-mocks.js',
-        'angular-component-factory.js',
+        'angular-component-factory.min.js',
         'angular-component-factory.test.js'
     ],
 
