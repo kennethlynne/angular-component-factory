@@ -15,18 +15,17 @@ module.exports = function (grunt) {
         ngmin: {
             dist: {
                 files: [{
-                    expand: true,
-                    cwd: '.',
-                    src: 'component-factory.js',
-                    dest: 'component-factory.ngmin.js'
+                    cwd: './',
+                    src: 'angular-component-factory.js',
+                    dest: 'angular-component-factory.min.js'
                 }]
             }
         },
         uglify: {
             dist: {
                 files: {
-                    'component-factory.ngmin.js': [
-                        'component-factory.min.js'
+                    'angular-component-factory.min.js': [
+                        'angular-component-factory.min.js'
                     ]
                 }
             }
