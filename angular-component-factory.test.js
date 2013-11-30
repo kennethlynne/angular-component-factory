@@ -78,8 +78,65 @@ describe('Service: componentFactory', function () {
         expect(componentFactory.createComponent('snakeCaseCaseSnake',{}).templateUrl).toBe('views/components/snake-case-case-snake/snake-case-case-snake.html');
     });
 
+    it('should not split multiple capital letters into camelCase (i.e. NameXML -> name-xml', function() {
+        expect(componentFactory.createComponent('nameXML',{}).componentSnakeName).toBe('name-xml');
+    });
+
+    it('should not snake case the first letter', function() {
+        expect(componentFactory.createComponent('NameXML',{}).componentSnakeName).toBe('name-xml');
+    });
+
     it('should remove "Component" suffix from templateUrl', function () {
         expect(componentFactory.createComponent('testComponent',{}).templateUrl).toBe('views/components/test/test.html');
     });
 
+});
+
+describe('Module decorator', function () {
+
+    var $compileProvider, testModule;
+
+    beforeEach(function () {
+        testModule = angular.module('testModule', []);
+        angular.componentFactory.moduleDecorator(testModule);
+
+        module('testModule',function (_$compileProvider_) {
+            $compileProvider = _$compileProvider_;
+            spyOn($compileProvider,'directive');
+        });
+
+        inject(function () {});
+    })
+
+    it('should decorate module with component namespace', function() {
+        expect(typeof testModule.component).toBe('function');
+    });
+
+    it('should register a directive when component is called', function() {
+
+        testModule.component('test', function (injectedThing) {
+            return {
+                link: function () {
+                    injectedThing('Loaded!');
+                }
+            }
+        });
+
+        var call = $compileProvider.directive.mostRecentCall.args;
+        var injectedThing = jasmine.createSpy('injectedThing');
+        var name = call[0];
+        var factory = call[1];
+
+        var $injector = {
+            invoke: function (constructor) {
+                return constructor(injectedThing);
+            }
+        };
+        var directive = factory($injector);
+        directive.link();
+
+
+        expect(name).toEqual('testComponent');
+        expect(injectedThing).toHaveBeenCalled();
+    });
 });
