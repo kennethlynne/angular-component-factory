@@ -47,12 +47,10 @@
             queue.push({name: name, constructor: constructor});
         };
 
-        module.config(function ($compileProvider) {
-            var compileProvider = $compileProvider;
-
+        module.config(['$compileProvider', function ($compileProvider) {
             module.component = function (name, constructor) {
                 //Register decorated directives
-                compileProvider.directive( (name + 'Component'), function ($injector) {
+                $compileProvider.directive( (name + 'Component'), function ($injector) {
                     return componentFactory().createComponent(name, $injector.invoke(constructor || angular.noop) || {});
                 });
                 return module; //To allow chaining
@@ -62,7 +60,7 @@
             angular.forEach(queue, function (component) {
                 module.component(component.name,component.constructor);
             });
-        });
+        }]);
 
     };
 
