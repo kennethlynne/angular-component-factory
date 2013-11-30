@@ -9,7 +9,16 @@ module.exports = function (grunt) {
         karma: {
             unit: {
                 configFile: 'karma.conf.js',
-                singleRun: true
+                singleRun: true,
+
+                options: {
+                    files: [
+                        'bower_components/angular/angular.js',
+                        'bower_components/angular-mocks/angular-mocks.js',
+                        'angular-component-factory.min.js',
+                        'angular-component-factory.test.js'
+                    ]
+                }
             }
         },
         ngmin: {
