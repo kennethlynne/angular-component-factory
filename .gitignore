@@ -175,3 +175,4 @@ npm-debug.log
 RSAKey.as
 .tmp/
 
+bower_components/
