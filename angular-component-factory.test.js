@@ -5,7 +5,7 @@ describe('Service: componentFactory', function () {
     var componentFactory;
 
     beforeEach(function () {
-        module('socklessJS.utils.componentFactory');
+        module('componentFactory');
 
         inject(function(_componentFactory_) {
             componentFactory = _componentFactory_;

@@ -6,7 +6,7 @@ VERY opinionated AngularJS wrapper to simplify use of directives as components.
 ## Usage
 To install: ```bower install angular-component-factory```
 
-Then add ```socklessJS.utils.componentFactory``` as a dependancy to your module or decorate module using ```angular.componentFactory.moduleDecorator(<your module>)```
+Then add ```componentFactory``` as a dependancy to your module or decorate module using ```angular.componentFactory.moduleDecorator(<your module>)```
 
 ###Example:
 ```

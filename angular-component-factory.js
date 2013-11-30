@@ -65,7 +65,7 @@
     };
 
     //Expose factory to angular
-    angular.module('socklessJS.utils.componentFactory', []).factory('componentFactory', componentFactory);
+    angular.module('componentFactory', []).factory('componentFactory', componentFactory);
 
     //Expose decorator globally
     angular.componentFactory = {
