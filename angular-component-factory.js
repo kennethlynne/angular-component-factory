@@ -50,9 +50,9 @@
         module.config(['$compileProvider', function ($compileProvider) {
             module.component = function (name, constructor) {
                 //Register decorated directives
-                $compileProvider.directive( (name + 'Component'), function ($injector) {
+                $compileProvider.directive( (name + 'Component'), ['$injector', function ($injector) {
                     return componentFactory().createComponent(name, $injector.invoke(constructor || angular.noop) || {});
-                });
+                }]);
                 return module; //To allow chaining
             };
 

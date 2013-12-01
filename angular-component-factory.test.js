@@ -125,7 +125,7 @@ describe('Module decorator', function () {
         var call = $compileProvider.directive.mostRecentCall.args;
         var injectedThing = jasmine.createSpy('injectedThing');
         var name = call[0];
-        var factory = call[1];
+        var factory = call[1][1]; //Get the function, namely the 2nd params 2nd element from the call $compileProvider.directive( NAME, ARRAY - ['$injector', function ($injector) {})
 
         var $injector = {
             invoke: function (constructor) {
