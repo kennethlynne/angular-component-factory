@@ -1,4 +1,4 @@
-(function (angular, undefined) {
+(function (angular) {
     'use strict';
 
     var componentFactory = function() {
