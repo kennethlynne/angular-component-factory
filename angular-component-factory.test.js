@@ -7,7 +7,7 @@ describe('Service: componentFactory', function () {
     beforeEach(function () {
         module('componentFactory');
 
-        inject(function(_componentFactory_) {
+        inject(function (_componentFactory_) {
             componentFactory = _componentFactory_;
         });
     });
@@ -17,126 +17,140 @@ describe('Service: componentFactory', function () {
     });
 
     it('should return a default directive definition object with templateUrl when it receives an empty object', function () {
-        expect(componentFactory.createComponent('test',{}).templateUrl).toEqual('views/components/test/test.html');
+        expect(componentFactory('test', {}).templateUrl).toEqual('views/components/test/test.html');
     });
 
     it('should return a default directive definition object with restrict E, when it receives an empty object', function () {
-        expect(componentFactory.createComponent('test',{}).restrict).toEqual('E');
+        expect(componentFactory('test', {}).restrict).toEqual('E');
     });
 
     it('should not attach any convention templateUrl if template is set to false', function () {
-        expect(componentFactory.createComponent('test',{
+        expect(componentFactory('test', {
             template: 'false'
         }).templateUrl).toBeUndefined();
     });
 
-    it('should set template back to undefined if template was set to "false"', function () {
-        expect(componentFactory.createComponent('test',{
-            template: 'false'
+    it('should set template back to undefined if template was set to null', function () {
+        expect(componentFactory('test', {
+            template: null
         }).template).toBeUndefined();
     });
 
     it('should not override templateUrl if one is specified', function () {
-        expect(componentFactory.createComponent('test',{
+        expect(componentFactory('test', {
             templateUrl: 'a'
         }).templateUrl).toEqual('a');
     });
 
     it('should not override templateUrl if template is specified', function () {
-        expect(componentFactory.createComponent('test',{
+        expect(componentFactory('test', {
             template: 'a'
         }).templateUrl).toBeUndefined();
     });
 
     it('should attach a new scope if scope is not defined', function () {
-        expect(componentFactory.createComponent('test',{
+        expect(componentFactory('test', {
         }).scope).not.toBeUndefined();
     });
 
     it('should NOT attach a new scope if scope is defined', function () {
-        expect(componentFactory.createComponent('test',{
-            scope: {a:'yup'}
+        expect(componentFactory('test', {
+            scope: {a: 'yup'}
         }).scope.a).toEqual('yup');
     });
 
     it('should pass replace along, and only if it was undefined set it to true', function () {
-        expect(componentFactory.createComponent('test',{}).replace).toBe(true);
-        expect(componentFactory.createComponent('test',{replace: undefined}).replace).toBe(true);
-        expect(componentFactory.createComponent('test',{replace:true}).replace).toBe(true);
+        expect(componentFactory('test', {}).replace).toBe(true);
+        expect(componentFactory('test', {replace: undefined}).replace).toBe(true);
+        expect(componentFactory('test', {replace: true}).replace).toBe(true);
     });
 
     it('should pass orig replace value along, if it was not undefined', function () {
-        expect(componentFactory.createComponent('test',{replace:false}).replace).toBe(false);
-        expect(componentFactory.createComponent('test',{replace:''}).replace).toBe('');
-        expect(componentFactory.createComponent('test',{replace:{'a':'b'}}).replace.a).toBe('b');
+        expect(componentFactory('test', {replace: false}).replace).toBe(false);
+        expect(componentFactory('test', {replace: ''}).replace).toBe('');
+        expect(componentFactory('test', {replace: {'a': 'b'}}).replace.a).toBe('b');
     });
 
 
     it('should apply snake-case to component name - ex. snakeCase -> snake-case', function () {
-        expect(componentFactory.createComponent('snakeCase',{}).templateUrl).toBe('views/components/snake-case/snake-case.html');
-        expect(componentFactory.createComponent('snakeCaseCase',{}).templateUrl).toBe('views/components/snake-case-case/snake-case-case.html');
-        expect(componentFactory.createComponent('snakeCaseCaseSnake',{}).templateUrl).toBe('views/components/snake-case-case-snake/snake-case-case-snake.html');
+        expect(componentFactory('snakeCase', {}).templateUrl).toBe('views/components/snake-case/snake-case.html');
+        expect(componentFactory('snakeCaseCase', {}).templateUrl).toBe('views/components/snake-case-case/snake-case-case.html');
+        expect(componentFactory('snakeCaseCaseSnake', {}).templateUrl).toBe('views/components/snake-case-case-snake/snake-case-case-snake.html');
     });
 
-    it('should not split multiple capital letters into camelCase (i.e. NameXML -> name-xml', function() {
-        expect(componentFactory.createComponent('nameXML',{}).componentSnakeName).toBe('name-xml');
+    it('should not split multiple capital letters into camelCase (i.e. NameXML -> name-xml', function () {
+        expect(componentFactory('nameXML', {}).componentSnakeName).toBe('name-xml');
     });
 
-    it('should not snake case the first letter', function() {
-        expect(componentFactory.createComponent('NameXML',{}).componentSnakeName).toBe('name-xml');
+    it('should not snake case the first letter', function () {
+        expect(componentFactory('NameXML', {}).componentSnakeName).toBe('name-xml');
     });
 
     it('should remove "Component" suffix from templateUrl', function () {
-        expect(componentFactory.createComponent('testComponent',{}).templateUrl).toBe('views/components/test/test.html');
+        expect(componentFactory('testComponent', {}).templateUrl).toBe('views/components/test/test.html');
     });
 
 });
 
+describe('Provider: componentFactoryProvider', function () {
+
+    var componentFactory;
+
+    beforeEach(function () {
+        module('componentFactory', function (componentFactoryProvider) {
+           componentFactoryProvider.setViewPath('CONFIGURED/');
+        });
+
+        inject(function (_componentFactory_) {
+            componentFactory = _componentFactory_;
+        });
+
+    });
+
+    it('should use the provided value as template url', function () {
+        expect(componentFactory('test', {}).templateUrl).toBe('CONFIGURED/test/test.html');
+    });
+});
+
 describe('Module decorator', function () {
 
-    var $compileProvider, testModule;
+    var $compileProvider, testModule, componentFactory;
 
     beforeEach(function () {
         testModule = angular.module('testModule', []);
         angular.componentFactory.moduleDecorator(testModule);
 
-        module('testModule',function (_$compileProvider_) {
+        componentFactory = jasmine.createSpy('componentFactory').andReturn('directive definition object');
+
+        module('testModule', function (_$compileProvider_, $provide) {
             $compileProvider = _$compileProvider_;
-            spyOn($compileProvider,'directive');
+            spyOn($compileProvider, 'directive');
+
+            $provide.value('componentFactory', componentFactory);
         });
 
-        inject(function () {});
+        inject(function () {
+        });
     })
 
-    it('should decorate module with component namespace', function() {
+    it('should decorate module with component namespace', function () {
         expect(typeof testModule.component).toBe('function');
     });
 
-    it('should register a directive when component is called', function() {
+    it('should register a directive when component is called', function () {
 
-        testModule.component('test', function (injectedThing) {
-            return {
-                link: function () {
-                    injectedThing('Loaded!');
-                }
-            }
-        });
+        var injector = {
+            invoke: angular.noop
+        }
+
+        testModule.component('test');
 
         var call = $compileProvider.directive.mostRecentCall.args;
-        var injectedThing = jasmine.createSpy('injectedThing');
         var name = call[0];
-        var factory = call[1][1]; //Get the function, namely the 2nd params 2nd element from the call $compileProvider.directive( NAME, ARRAY - ['$injector', function ($injector) {})
-
-        var $injector = {
-            invoke: function (constructor) {
-                return constructor(injectedThing);
-            }
-        };
-        var directive = factory($injector);
-        directive.link();
-
+        var factory = call[1][2];
 
         expect(name).toEqual('testComponent');
-        expect(injectedThing).toHaveBeenCalled();
+        expect(factory(injector, componentFactory)).toEqual('directive definition object');
     });
+
 });

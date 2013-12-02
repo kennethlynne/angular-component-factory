@@ -1,7 +1,7 @@
 angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory)
 =========================
 
-VERY opinionated AngularJS wrapper to simplify use of directives as components.
+A VERY opinionated AngularJS wrapper to simplify use of directives as components.
 
 ## Usage
 To install: ```bower install angular-component-factory```
@@ -40,3 +40,13 @@ One way you might use it:
 
 This will try to fetch a template from ```/views/components/horse-partial/horse-partial.html``` and instantiate a directive with a isolate scope.
 Later on when you want to add some logic, just implement the constructor function as you usually do for a directive.
+
+## Configuration
+If you want to set the view path you may do something like this
+```
+demo.config(function (componentFactoryProvider) {
+    componentFactoryProvider.setViewPath('some/custom/path/');
+});
+```
+Views will then be loaded from
+``````some/custom/path/unicorn-test/unicorn-test.html``````

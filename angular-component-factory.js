@@ -1,40 +1,45 @@
 (function (angular) {
     'use strict';
 
-    var componentFactory = function() {
-        return {
-            createComponent: function(componentName, constructor) {
+    var componentFactoryProvider = function () {
 
-                var componentViewPath = 'views/components/'; //Change this variable to fit your needs
+        var componentViewPath = 'views/components/';
 
-                if(!constructor.template && constructor.template !== 'false')
-                {
-                    var componentSnakeName = componentName
-                        .replace(/(?:[A-Z]+)/g, function (match) { //camelCase -> snake-case
-                            return "-"+match.toLowerCase();
-                        })
-                        .replace(/^-/, ''); // CamelCase -> -snake-case -> sake-case
+        this.setViewPath = function (path) {
+            componentViewPath = path;
+        };
 
-                    componentSnakeName = componentSnakeName.replace(/-component/,'');
-                    constructor.componentSnakeName = componentSnakeName;
-                    constructor.templateUrl = constructor.templateUrl || componentViewPath + componentSnakeName + '/' + componentSnakeName + '.html';
-                };
+        var componentFactory = function (componentName, constructor) {
 
-                if(constructor.template === 'false')
-                {
-                    constructor.template = undefined;
-                };
+            constructor = constructor || {};
 
-                if(constructor.replace === undefined)
-                {
-                    constructor.replace = true;
-                };
+            if (constructor.template === undefined) {
+                var componentSnakeName = componentName
+                    .replace(/(?:[A-Z]+)/g, function (match) { //camelCase -> snake-case
+                        return "-" + match.toLowerCase();
+                    })
+                    .replace(/^-/, ''); // CamelCase -> -snake-case -> snake-case
 
-                constructor.scope = 	constructor.scope 		|| {};
-                constructor.restrict = 	constructor.restrict 	|| 'E';
-
-                return constructor
+                componentSnakeName = componentSnakeName.replace(/-component/, '');
+                constructor.componentSnakeName = componentSnakeName;
+                constructor.templateUrl = constructor.templateUrl || componentViewPath + componentSnakeName + '/' + componentSnakeName + '.html';
             }
+            else if (constructor.template === null) {
+                constructor.template = undefined;
+            };
+
+            if (constructor.replace === undefined) {
+                constructor.replace = true;
+            };
+
+            constructor.scope = constructor.scope || {};
+            constructor.restrict = constructor.restrict || 'E';
+
+            return constructor
+        };
+
+        this.$get = function () {
+            return componentFactory;
         }
     };
 
@@ -50,24 +55,25 @@
         module.config(['$compileProvider', function ($compileProvider) {
             module.component = function (name, constructor) {
                 //Register decorated directives
-                $compileProvider.directive( (name + 'Component'), ['$injector', function ($injector) {
-                    return componentFactory().createComponent(name, $injector.invoke(constructor || angular.noop) || {});
+                $compileProvider.directive((name + 'Component'), ['$injector', 'componentFactory', function ($injector, componentFactory) {
+                    return componentFactory(name, $injector.invoke(constructor || angular.noop) || {});
                 }]);
                 return module; //To allow chaining
             };
 
             //Registered queued components
             angular.forEach(queue, function (component) {
-                module.component(component.name,component.constructor);
+                module.component(component.name, component.constructor);
             });
         }]);
 
+        module.provider('componentFactory', componentFactoryProvider);
     };
 
-    //Expose factory to angular
-    angular.module('componentFactory', []).factory('componentFactory', componentFactory);
+    //Expose provider as a angular module
+    angular.module('componentFactory', []).provider('componentFactory', componentFactoryProvider);
 
-    //Expose decorator globally
+    //Expose decorator
     angular.componentFactory = {
         moduleDecorator: decorateModule
     }
