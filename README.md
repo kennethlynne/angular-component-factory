@@ -49,4 +49,6 @@ demo.config(function (componentFactoryProvider) {
 });
 ```
 Views will then be loaded from
-```some/custom/path/unicorn-test/unicorn-test.html```
+```
+some/custom/path/unicorn-test/unicorn-test.html
+```
