@@ -1,4 +1,5 @@
 angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory)
+[![Stories in Ready](https://badge.waffle.io/kennethlynne/angular-component-factory.png?label=ready)](http://waffle.io/kennethlynne/angular-component-factory)
 =========================
 
 A VERY opinionated AngularJS wrapper to simplify use of directives as components.
