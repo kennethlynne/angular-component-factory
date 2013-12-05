@@ -4,6 +4,8 @@ angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/an
 
 A VERY opinionated AngularJS wrapper to simplify use of directives as components.
 
+See [demo](http://kennethlynne.github.io/angular-component-factory/), and view source.
+
 ## Usage
 To install: ```bower install angular-component-factory```
 
