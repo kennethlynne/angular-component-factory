@@ -26,6 +26,11 @@ demo.component('unicornTest', function ($log) {
 });
 ```
 
+views/components/unicorn-test/unicorn-test.html:
+```
+<p>{{message}}</p>
+```
+
 ```
 <unicorn-test-component></unicorn-test-component>
 ```
