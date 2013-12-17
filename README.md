@@ -1,7 +1,7 @@
 angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory)
 =========================
 
-A VERY opinionated AngularJS wrapper to simplify use of directives as components.
+A very opinionated AngularJS decorator and provider inspired by the [web components proposal](http://www.w3.org/TR/components-intro/) to simplify use of directives as reusable components.
 
 See [demo](http://kennethlynne.github.io/angular-component-factory/), and view source.
 
@@ -41,9 +41,9 @@ The object that the constructor returns should be a directive definition object.
 
 One way you might use it:
 
- ```javascript
- demo.component('horsePartial');
- ```
+```javascript
+demo.component('horsePartial');
+```
 
 This will try to fetch a template from `/views/components/horse-partial/horse-partial.html` and instantiate a directive with a isolate scope.
 Later on when you want to add some logic, just implement the constructor function as you usually do for a directive.
