@@ -6,12 +6,12 @@ A VERY opinionated AngularJS wrapper to simplify use of directives as components
 See [demo](http://kennethlynne.github.io/angular-component-factory/), and view source.
 
 ## Usage
-To install: ```bower install angular-component-factory```
+To install: `bower install angular-component-factory`
 
-Then add ```componentFactory``` as a dependancy to your module or decorate module using ```angular.componentFactory.moduleDecorator(<your module>)```
+Then add `componentFactory` as a dependancy to your module or decorate module using ```angular.componentFactory.moduleDecorator(<your module>)```
 
 ###Example:
-```
+```javascript
 var demo = angular.module('DemoApp', []);
 
 angular.componentFactory.moduleDecorator(demo);
@@ -41,28 +41,26 @@ The object that the constructor returns should be a directive definition object.
 
 One way you might use it:
 
- ```
+ ```javascript
  demo.component('horsePartial');
  ```
 
-This will try to fetch a template from ```/views/components/horse-partial/horse-partial.html``` and instantiate a directive with a isolate scope.
+This will try to fetch a template from `/views/components/horse-partial/horse-partial.html` and instantiate a directive with a isolate scope.
 Later on when you want to add some logic, just implement the constructor function as you usually do for a directive.
 
 ## Configuration
 If you want to set the view path you may do something like this
-```
+```javascript
 demo.config(function (componentFactoryProvider) {
     componentFactoryProvider.setViewPath('some/custom/path/');
 });
 ```
 Views will then be loaded from
-```
-some/custom/path/unicorn-test/unicorn-test.html
-```
+`some/custom/path/unicorn-test/unicorn-test.html`
 
 You can also provide `setViewPath` with a factory function to do more custom handling based on the components name:
 
-```
+```javascript
 componentFactoryProvider.setViewPath(function (componentSnakeCasedName, componentName) {
     return 'components/' + componentSnakeCasedName + '/some-path/views/' + componentName + '.html';
 });
