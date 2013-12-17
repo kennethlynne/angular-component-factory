@@ -94,11 +94,11 @@ describe('Service: componentFactory', function () {
 
 describe('Provider: componentFactoryProvider', function () {
 
-    var componentFactory;
+    var componentFactoryProvider, componentFactory;
 
     beforeEach(function () {
-        module('componentFactory', function (componentFactoryProvider) {
-           componentFactoryProvider.setViewPath('CONFIGURED/');
+        module('componentFactory', function (_componentFactoryProvider_) {
+            componentFactoryProvider = _componentFactoryProvider_;
         });
 
         inject(function (_componentFactory_) {
@@ -108,13 +108,21 @@ describe('Provider: componentFactoryProvider', function () {
     });
 
     it('should use the provided value as template url', function () {
+        componentFactoryProvider.setViewPath('CONFIGURED/');
         expect(componentFactory('test', {}).templateUrl).toBe('CONFIGURED/test/test.html');
     });
+
+    it('should handle functions as template urls', function () {
+        componentFactoryProvider.setViewPath(function (snakeCased, original) {
+            return 'components/' + snakeCased + '/some-path/views/' + original + '.html';
+        });
+        expect(componentFactory('testThing', {}).templateUrl).toBe('components/test-thing/some-path/views/testThing.html');
+    })
 });
 
 describe('Module decorator', function () {
 
-    var $compileProvider, testModule, componentFactory;
+    var $compileProvider, testModule, componentFactory, $injector;
 
     beforeEach(function () {
         testModule = angular.module('testModule', []);
@@ -129,8 +137,7 @@ describe('Module decorator', function () {
             $provide.value('componentFactory', componentFactory);
         });
 
-        inject(function () {
-        });
+        inject(function (_$injector_) {$injector = _$injector_});
     })
 
     it('should decorate module with component namespace', function () {
@@ -153,4 +160,7 @@ describe('Module decorator', function () {
         expect(factory(injector, componentFactory)).toEqual('directive definition object');
     });
 
+    it('should inject componentFactory into the decorated module', function() {
+        expect($injector.has('componentFactory')).toBeTruthy();
+    });
 });

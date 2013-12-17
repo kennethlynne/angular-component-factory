@@ -60,3 +60,15 @@ Views will then be loaded from
 ```
 some/custom/path/unicorn-test/unicorn-test.html
 ```
+
+You can also provide `setViewPath` with a factory function to do more custom handling based on the components name:
+
+```
+componentFactoryProvider.setViewPath(function (componentSnakeCasedName, componentName) {
+    return 'components/' + name + '/some-path/views/' + name + '.html';
+});
+```
+This function will be called on every registration to map the component name to a url.
+The above example will return 'components/<name>/some-path/views/<name>.html'
+
+The factory will be served with two parameters: the snake cased component name, and the original one, and is expected to return a string path.

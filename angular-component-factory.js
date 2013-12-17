@@ -3,10 +3,21 @@
 
     var componentFactoryProvider = function () {
 
-        var componentViewPath = 'views/components/';
+        var componentBaseViewPath = 'views/components/';
 
-        this.setViewPath = function (path) {
-            componentViewPath = path;
+        //Default component view path factory
+        var componentViewPathFactory = function (componentSnakeName, componentName) {
+            return componentBaseViewPath + componentSnakeName + '/' + componentSnakeName + '.html';
+        };
+
+        this.setViewPath = function (args) {
+            if (typeof args == 'string') {
+                componentBaseViewPath = args;
+            }
+            else if(typeof args == 'function')
+            {
+                componentViewPathFactory = args;
+            }
         };
 
         var componentFactory = function (componentName, constructor) {
@@ -22,7 +33,7 @@
 
                 componentSnakeName = componentSnakeName.replace(/-component/, '');
                 constructor.componentSnakeName = componentSnakeName;
-                constructor.templateUrl = constructor.templateUrl || componentViewPath + componentSnakeName + '/' + componentSnakeName + '.html';
+                constructor.templateUrl = constructor.templateUrl || componentViewPathFactory(componentSnakeName, componentName);
             }
             else if (constructor.template === null) {
                 constructor.template = undefined;
