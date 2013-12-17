@@ -65,10 +65,10 @@ You can also provide `setViewPath` with a factory function to do more custom han
 
 ```
 componentFactoryProvider.setViewPath(function (componentSnakeCasedName, componentName) {
-    return 'components/' + name + '/some-path/views/' + name + '.html';
+    return 'components/' + componentSnakeCasedName + '/some-path/views/' + componentName + '.html';
 });
 ```
 This function will be called on every registration to map the component name to a url.
-The above example will return 'components/<name>/some-path/views/<name>.html'
+The above example will return 'components/example-name/some-path/views/exampleName.html'
 
 The factory will be served with two parameters: the snake cased component name, and the original one, and is expected to return a string path.
