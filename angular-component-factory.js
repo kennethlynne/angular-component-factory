@@ -22,9 +22,9 @@
 
         var componentFactory = function (componentName, constructor) {
 
-            constructor = constructor || {};
+            var ctor = constructor || {};
 
-            if (constructor.template === undefined) {
+            if (ctor.template === undefined) {
                 var componentSnakeName = componentName
                     .replace(/(?:[A-Z]+)/g, function (match) { //camelCase -> snake-case
                         return "-" + match.toLowerCase();
@@ -32,21 +32,21 @@
                     .replace(/^-/, ''); // CamelCase -> -snake-case -> snake-case
 
                 componentSnakeName = componentSnakeName.replace(/-component/, '');
-                constructor.componentSnakeName = componentSnakeName;
-                constructor.templateUrl = constructor.templateUrl || componentViewPathFactory(componentSnakeName, componentName);
+                ctor.componentSnakeName = componentSnakeName;
+                ctor.templateUrl = ctor.templateUrl || componentViewPathFactory(componentSnakeName, componentName);
             }
-            else if (constructor.template === null) {
-                constructor.template = undefined;
+            else if (ctor.template === null) {
+                ctor.template = undefined;
             };
 
-            if (constructor.replace === undefined) {
-                constructor.replace = true;
+            if (ctor.replace === undefined) {
+                ctor.replace = true;
             };
 
-            constructor.scope = constructor.scope || {};
-            constructor.restrict = constructor.restrict || 'E';
+            ctor.scope = ctor.scope || {};
+            ctor.restrict = ctor.restrict || 'E';
 
-            return constructor
+            return ctor
         };
 
         this.$get = function () {
