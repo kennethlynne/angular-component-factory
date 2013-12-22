@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/kennethlynne/angular-component-factory.png?label=ready)](https://waffle.io/kennethlynne/angular-component-factory)  
 angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory)
 =========================
 
