@@ -24,16 +24,10 @@ describe('Service: componentFactory', function () {
         expect(componentFactory('test', {}).restrict).toEqual('E');
     });
 
-    it('should not attach any convention templateUrl if template is set to false', function () {
+    it('should not attach any template if set to undefined', function () {
         expect(componentFactory('test', {
-            template: 'false'
+            templateUrl: undefined
         }).templateUrl).toBeUndefined();
-    });
-
-    it('should set template back to undefined if template was set to null', function () {
-        expect(componentFactory('test', {
-            template: null
-        }).template).toBeUndefined();
     });
 
     it('should not override templateUrl if one is specified', function () {
@@ -48,34 +42,28 @@ describe('Service: componentFactory', function () {
         }).templateUrl).toBeUndefined();
     });
 
-    it('should attach a new scope if scope is not defined', function () {
+    it('should handle scope', function () {
         expect(componentFactory('test', {
         }).scope).not.toBeUndefined();
-    });
 
-    it('should NOT attach a new scope if scope is defined', function () {
+        expect(componentFactory('test', {
+            scope: undefined
+        }).scope).toBeUndefined();
+
         expect(componentFactory('test', {
             scope: {a: 'yup'}
         }).scope.a).toEqual('yup');
     });
 
-    it('should pass replace along, and only if it was undefined set it to true', function () {
+    it('should handle replace', function () {
         expect(componentFactory('test', {}).replace).toBe(true);
-        expect(componentFactory('test', {replace: undefined}).replace).toBe(true);
+        expect(componentFactory('test', {replace: false}).replace).toBe(false);
         expect(componentFactory('test', {replace: true}).replace).toBe(true);
     });
-
-    it('should pass orig replace value along, if it was not undefined', function () {
-        expect(componentFactory('test', {replace: false}).replace).toBe(false);
-        expect(componentFactory('test', {replace: ''}).replace).toBe('');
-        expect(componentFactory('test', {replace: {'a': 'b'}}).replace.a).toBe('b');
-    });
-
 
     it('should apply snake-case to component name - ex. snakeCase -> snake-case', function () {
         expect(componentFactory('snakeCase', {}).templateUrl).toBe('views/components/snake-case/snake-case.html');
         expect(componentFactory('snakeCaseCase', {}).templateUrl).toBe('views/components/snake-case-case/snake-case-case.html');
-        expect(componentFactory('snakeCaseCaseSnake', {}).templateUrl).toBe('views/components/snake-case-case-snake/snake-case-case-snake.html');
     });
 
     it('should not split multiple capital letters into camelCase (i.e. NameXML -> name-xml', function () {
@@ -84,10 +72,6 @@ describe('Service: componentFactory', function () {
 
     it('should not snake case the first letter', function () {
         expect(componentFactory('NameXML', {}).componentSnakeName).toBe('name-xml');
-    });
-
-    it('should remove "Component" suffix from templateUrl', function () {
-        expect(componentFactory('testComponent', {}).templateUrl).toBe('views/components/test/test.html');
     });
 
 });

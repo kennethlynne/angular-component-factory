@@ -20,33 +20,25 @@
             }
         };
 
-        var componentFactory = function (componentName, constructor) {
+        var componentFactory = function (componentName, overrides) {
 
-            var ctor = constructor || {};
+            var componentSnakeName = componentName
+                .replace(/(?:[A-Z]+)/g, function (match) { //camelCase -> snake-case
+                    return "-" + match.toLowerCase();
+                })
+                .replace(/^-/, ''); // CamelCase -> -snake-case -> snake-case
 
-            if (ctor.template === undefined) {
-                var componentSnakeName = componentName
-                    .replace(/(?:[A-Z]+)/g, function (match) { //camelCase -> snake-case
-                        return "-" + match.toLowerCase();
-                    })
-                    .replace(/^-/, ''); // CamelCase -> -snake-case -> snake-case
-
-                componentSnakeName = componentSnakeName.replace(/-component/, '');
-                ctor.componentSnakeName = componentSnakeName;
-                ctor.templateUrl = ctor.templateUrl || componentViewPathFactory(componentSnakeName, componentName);
-            }
-            else if (ctor.template === null) {
-                ctor.template = undefined;
+            var _default = {
+                templateUrl: componentViewPathFactory(componentSnakeName, componentName),
+                replace: true,
+                scope: {},
+                restrict: 'E',
+                componentSnakeName: componentSnakeName
             };
 
-            if (ctor.replace === undefined) {
-                ctor.replace = true;
-            };
+            if(overrides && overrides.template) delete _default.templateUrl;
 
-            ctor.scope = ctor.scope || {};
-            ctor.restrict = ctor.restrict || 'E';
-
-            return ctor
+            return angular.extend(_default, overrides);
         };
 
         this.$get = function () {
