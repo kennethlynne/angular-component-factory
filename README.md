@@ -1,4 +1,4 @@
-angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory) [![Stories in Ready](https://badge.waffle.io/kennethlynne/angular-component-factory.png?label=ready)](https://waffle.io/kennethlynne/angular-component-factory)  
+angular-component-factory [![Build Status](https://travis-ci.org/kennethlynne/angular-component-factory.png?branch=master)](https://travis-ci.org/kennethlynne/angular-component-factory) [![Code Climate](https://codeclimate.com/repos/52bc2ac56956806cdb003614/badges/2e65a9f12288f8ec4c3a/gpa.png)](https://codeclimate.com/repos/52bc2ac56956806cdb003614/feed) [![Stories in Ready](https://badge.waffle.io/kennethlynne/angular-component-factory.png?label=ready)](https://waffle.io/kennethlynne/angular-component-factory)  
 =========================
 
 A very opinionated AngularJS decorator and provider inspired by the [web components proposal](http://www.w3.org/TR/components-intro/) to simplify use of directives as reusable components.
