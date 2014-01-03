@@ -46,7 +46,7 @@ demo.component('horsePartial');
 ```
 
 This will try to fetch a template from `/views/components/horse-partial/horse-partial.html` and instantiate a directive with a isolate scope.
-Later on when you want to add some logic, just implement the constructor function as you usually do for a directive.
+Later on when you want to add some logic, just implement the factory function as you usually do for a directive.
 
 ## Configuration
 If you want to set the view path you may do something like this
