@@ -69,3 +69,5 @@ This function will be called on every registration to map the component name to 
 The above example will return 'components/example-name/some-path/views/exampleName.html'
 
 The factory will be served with two parameters: the snake cased component name, and the original one, and is expected to return a string path.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-46835353-1/angular-component-factory/README)](https://github.com/igrigorik/ga-beacon)
