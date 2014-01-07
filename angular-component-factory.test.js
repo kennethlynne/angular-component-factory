@@ -5,7 +5,7 @@ describe('Service: componentFactory', function () {
     var componentFactory;
 
     beforeEach(function () {
-        module('componentFactory');
+        module('kennethlynne.componentFactory');
 
         inject(function (_componentFactory_) {
             componentFactory = _componentFactory_;
@@ -81,7 +81,7 @@ describe('Provider: componentFactoryProvider', function () {
     var componentFactoryProvider, componentFactory;
 
     beforeEach(function () {
-        module('componentFactory', function (_componentFactoryProvider_) {
+        module('kennethlynne.componentFactory', function (_componentFactoryProvider_) {
             componentFactoryProvider = _componentFactoryProvider_;
         });
 
@@ -118,7 +118,7 @@ describe('Module decorator', function () {
             $compileProvider = _$compileProvider_;
             spyOn($compileProvider, 'directive');
 
-            $provide.value('componentFactory', componentFactory);
+            $provide.value('kennethlynne.componentFactory', componentFactory);
         });
 
         inject(function (_$injector_) {$injector = _$injector_});

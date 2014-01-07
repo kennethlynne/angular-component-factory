@@ -74,7 +74,7 @@
     };
 
     //Expose provider as a angular module
-    angular.module('componentFactory', []).provider('componentFactory', componentFactoryProvider);
+    angular.module('kennethlynne.componentFactory', []).provider('componentFactory', componentFactoryProvider);
 
     //Expose decorator
     angular.componentFactory = {
