@@ -46,7 +46,7 @@ demo.component('horsePartial');
 ```
 
 This will try to fetch a template from `/views/components/horse-partial/horse-partial.html` and instantiate a directive with a isolate scope.
-Later on when you want to add some logic, just implement the constructor function as you usually do for a directive.
+Later on when you want to add some logic, just implement the factory function as you usually do for a directive.
 
 ## Configuration
 If you want to set the view path you may do something like this
@@ -90,3 +90,5 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+[![Analytics](https://ga-beacon.appspot.com/UA-46835353-1/angular-component-factory/README)](https://github.com/igrigorik/ga-beacon)
